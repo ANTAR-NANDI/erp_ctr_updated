@@ -5,15 +5,10 @@ $Web_settings = $CI->Web_settings->retrieve_setting_editdata();
 ?>
 
 <style>
-    table,
-    td,
-    th {
-        border: 1px solid black;
-    }
-
     table {
-        border-collapse: collapse;
+        /*border-collapse: collapse;*/
         width: 50%;
+        border: none !important;
     }
 
     th {
@@ -42,240 +37,302 @@ $Web_settings = $CI->Web_settings->retrieve_setting_editdata();
     <!-- Main content -->
     <section class="content">
         <!-- Alert Message -->
+        <?php
+        $message = $this->session->userdata('message');
+        if (isset($message)) {
+        ?>
+            <div class="alert alert-info alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <?php echo $message ?>
+            </div>
+        <?php
+            $this->session->unset_userdata('message');
+        }
+        $error_message = $this->session->userdata('error_message');
+        if (isset($error_message)) {
+        ?>
+            <div class="alert alert-danger alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <?php echo $error_message ?>
+            </div>
+        <?php
+            $this->session->unset_userdata('error_message');
+        }
+        ?>
         <div class="row">
             <div class="col-sm-12">
                 <div class="panel panel-bd">
-                    <div id="printableArea" onload="printDiv('printableArea')">
-
+                    <div id="printableArea" class="watermark" onload="printDiv('printableArea')">
                         <style type="text/css" scoped>
+                            .panel-body:last-child {
+                                page-break-after: auto;
+                            }
+
+                            html,
                             body {
-                                font-size: 16px;
+                                height: auto;
                             }
 
-                            td {
-                                padding: 3px;
-                            }
+                            @media print {
+                                .inv-footer-l {
+                                    float: left;
+                                    width: 35%;
+                                    font-size: 14px;
+                                }
 
-                            .cus-sign {
-                                margin-top: 2cm !important;
-                                display: flex !important;
-                                justify-content: space-around !important;
+                                .inv-footer-r {
+                                    width: 35%;
+                                    font-size: 14px;
+                                    float: right;
+                                }
 
-                            }
+                                body {
+                                    -webkit-print-color-adjust: exact !important;
+                                }
 
-                            .cus {
-                                padding: 5px;
-                                border-top: 1px solid black;
-                            }
+                                html,
+                                body {
+                                    font-family: 'Times New Roman', Times, serif;
+                                    font-size: 18px;
+                                    font-weight: bold;
 
-                            .cus-name {
-                                font-size: 18px;
-                                font-weight: bold;
+                                    height: 99%;
+                                    page-break-after: avoid;
+                                    page-break-before: avoid;
+                                    /*background-color: rgba(217, 236, 241, 0.9) !important;*/
+                                }
+
+                                h4 {
+                                    font-family: 'Times New Roman', Times, serif;
+                                    font-size: 18px;
+                                }
+
+                                table,
+                                td,
+                                th {
+                                    border: 1px solid black;
+                                    /*border: none !important;*/
+                                }
+
+
+                                .table td {
+                                    border: 1px solid black !important;
+                                    background-color: #fff0 !important;
+                                    font-size: 14px !important;
+                                }
+
+                                .table th {
+                                    font-size: 16px !important;
+                                    border: 1px solid black !important;
+                                    /*background: rgb(255,0,0);*/
+                                    /*background: linear-gradient(to top, #c9ffee 0%, #ffffff 100%) !important;*/
+                                    /*background: -moz-linear-gradient(to top, #c9ffee 0%, #ffffff 100%) !important;*/
+                                    /*background: -webkit-linear-gradient(to top, #c9ffee 0%, #ffffff 100%) !important;*/
+                                    /*height: 100% !important;*/
+                                    background-color: #c9ffee !important;
+                                    text-transform: uppercase !important;
+
+                                    /*color: white !important;*/
+                                }
+
+                                table,
+                                tr,
+                                td {
+                                    border: none;
+                                }
+
+                                .no_border {
+                                    border: none !important;
+                                }
+
+                                .company_name {
+                                    font-family: "Edwardian Script ITC";
+                                    font-size: 20px !important;
+                                    color: #1f3297 !important;
+                                    letter-spacing: 3px;
+                                }
                             }
                         </style>
 
-                        <div class="panel-body" style="margin-top: 1in; margin-bottom: 1in;">
+                        <div class="watermark" style="position:absolute; opacity: 0.5; width:100vw; height:100vh; z-index: -1; background-image: url('<?php echo base_url() ?>assets/images/icons/watermark.png') !important; background-repeat: no-repeat !important; background-size: 5.45in auto !important;-webkit-print-color-adjust: exact ; background-position: 1.5in 3in !important;">
+                        </div>
+                        <div class="panel-body">
+
+                            <div class="col-xs-12 row">
+
+                                <div class="col-xs-6">
+                                    <img style="height: 100px; width: 100%" src="<?php
+                                                                                    if (isset($inv_logo)) {
+                                                                                        echo html_escape($inv_logo);
+                                                                                    }
+                                                                                    ?>" class="img-bottom-m" alt="">
+                                </div>
+                                <div class="col-xs-6 company-content">
+                                    {company_info}
+
+                                    <address>
+                                        <abbr><i class="ti-location-pin"></i> {address}</abbr><br>
+                                        <nobr><abbr>
+                                                <nobr><i class="fa fa-whatsapp"></i> Cell:
+                                            </abbr> {mobile}</nobr><br>
+                                        <abbr><b>
 
 
-                            <div class="row">
-                                <div class="col-sm-8 invoice-address ">
-                                    <h2 class="m-t-0">Chalan</h2>
-                                    <div><?php echo display('invoice_no') ?>: {invoice_no}</div>
-                                    <div class="m-b-15"><?php echo display('billing_date') ?>: {final_date}</div>
-
-
-                                    <address class="customer_name_p">
-                                        <strong class="cus_name">{customer_name} </strong><br>
-                                        <?php if ($customer_address) { ?>
-                                            {customer_address}
-                                        <?php } ?>
-                                        <br>
-                                        <abbr><b><?php echo display('mobile') ?>:</b></abbr>
-                                        <?php if ($customer_mobile) { ?>
-                                            {customer_mobile}
-                                        <?php }
-                                        if ($customer_email) {
-                                        ?>
-                                            <br>
-                                            <abbr><b><?php echo display('email') ?>:</b></abbr>
-                                            {customer_email}
-                                        <?php } ?>
                                     </address>
+                                    {/company_info}
                                 </div>
 
 
-
                             </div>
 
-                            <div class="table-responsive table-bordered">
+                            <div class="col-xs-12 row">
 
-                                <table class="" style="width: 100%;">
+                                <div class="col-xs-3">
+
+                                </div>
+                                <div class="col-xs-6 bill ">
+                                    Delivery Challan
+
+                                </div>
+
+
+                                <div class="col-xs-3">
+
+                                </div>
+                            </div>
+                            <div class="col-xs-12 row">
+
+                                <div class="col-xs-5">
+                                    <nobr>Challan No : CH-{invoice_no}</nobr>
+                                </div>
+                                <div class="col-xs-2  ">
+
+
+                                </div>
+
+
+                                <div class="col-xs-5" style="text-align: right">
+                                    Date: {final_date}
+                                </div>
+                            </div> <br> <br>
+                            <div class="col-xs-12 row">
+
+                                <div class="col-xs-12">
+                                    Name : {customer_name}
+                                </div>
+
+                            </div>
+                            <div class="col-xs-12 row">
+
+                                <div class="col-xs-6 p-5">
+                                    <nobr>Address : {customer_address}</nobr>
+                                </div>
+
+                                <div class="col-xs-3  ">
+
+                                </div>
+
+
+                                <div class="col-xs-3">
+                                    Department :
+                                </div>
+                            </div>
+                            <br>
+                            <div class="margin-top10">
+
+                                <table class="table " style="width: 100%;">
                                     <thead>
-                                        <!--                                    <img class="watermark" src="--><?php
-                                                                                                                //                                    if (isset($Web_settings[0]['invoice_logo'])) {
-                                                                                                                //                                        echo html_escape($Web_settings[0]['invoice_logo']);
-                                                                                                                //                                    }
-                                                                                                                //
-                                                                                                                ?>
-                                        <!--"  alt="">-->
                                         <tr>
-                                            <th class="text-center"><?php echo display('sl') ?></th>
-                                            <th class="text-center"><?php echo display('product_name') ?></th>
-                                            <!-- <th class="text-center">SN</th> -->
+                                            <th class="text-center">No.</th>
+                                            <th class="text-center">Description</th>
                                             <th class="text-center">Unit</th>
-
-                                            <th class="text-center"><?php echo display('quantity') ?></th>
-                                            <!--                                            --><?php //if($is_discount > 0){
-                                                                                                ?>
-                                            <!--                                                --><?php //if ($discount_type == 1) {
-                                                                                                    ?>
-                                            <!--                                                    <th class="text-right">--><?php //echo display('discount_percentage')
-                                                                                                                                ?>
-                                            <!-- %</th>-->
-                                            <!--                                                --><?php //} elseif ($discount_type == 2) {
-                                                                                                    ?>
-                                            <!--                                                    <th class="text-right">--><?php //echo display('discount')
-                                                                                                                                ?>
-                                            <!-- </th>-->
-                                            <!--                                                --><?php //} elseif ($discount_type == 3) {
-                                                                                                    ?>
-                                            <!--                                                    <th class="text-right">--><?php //echo display('fixed_dis')
-                                                                                                                                ?>
-                                            <!-- </th>-->
-                                            <!--                                                --><?php //}
-                                                                                                    ?>
-                                            <!--                                            --><?php //}else{
-                                                                                                ?>
-                                            <!--                                                <th class="text-right">--><?php //echo '';
-                                                                                                                            ?>
-                                            <!-- </th>-->
-                                            <!--                                            --><?php //}
-                                                                                                ?>
-
-
+                                            <th class="text-center">Qty</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {invoice_all_data}
-                                        <tr>
-                                            <td class="text-center">{sl}</td>
-                                            <td class="text-left">
-                                                <div>{product_name} {extra}</div>
-                                            </td>
-                                            <td class="text-center">
-                                                <div>{unit}</div>
-                                            </td>
 
-                                            <td align="center">{quantity}</td>
+                                        <?php
+                                        $sl = 1;
+                                        $s_total = 0;
+                                        foreach ($invoice_all_data as $invoice_data) { ?>
+                                            <tr>
+                                                <td align="center">
+                                                    <nobr><?php echo $sl; ?></nobr>
+                                                </td>
 
-                                            <!--                                            --><?php //if ($discount_type == 1) {
-                                                                                                ?>
-                                            <!--                                                <td align="right">{discount_per}</td>-->
-                                            <!--                                            --><?php //} else {
-                                                                                                ?>
-                                            <!--                                                <td align="right">--><?php //echo (($position == 0) ? "$currency {discount_per}" : "{discount_per} $currency")
-                                                                                                                        ?>
-                                            <!--</td>-->
-                                            <!--                                            --><?php //}
-                                                                                                ?>
-                                            <!--                                            <img class="watermark" src="--><?php
-                                                                                                                            //                                            if (isset($Web_settings[0]['invoice_logo'])) {
-                                                                                                                            //                                                echo html_escape($Web_settings[0]['invoice_logo']);
-                                                                                                                            //                                            }
-                                                                                                                            //
-                                                                                                                            ?>
-                                            <!--" class="img-bottom-m" alt="">-->
+                                                <td align="center">
+                                                    <?php if ($invoice_data['is_return'] == 0) { ?>
+                                                        <?php echo html_escape($invoice_data['product_name']) . '(' . html_escape($invoice_data['sku']) . ')'; ?>
 
-                                        </tr>
-                                        {/invoice_all_data}
+                                                    <?php } else { ?>
+                                                        <?php echo html_escape($invoice_data['product_name']) . '(' . html_escape($invoice_data['sku']) . ')(RET)'; ?>
 
-                                        <!--                                        --><?php //if ($invoice_discount > 0) {
-                                                                                        ?>
-                                        <!--                                            <tr >-->
-                                        <!--                                                <td class="text-left" colspan="3"><b>Sale Discount:</b></td>-->
-                                        <!--                                                <td></td>-->
-                                        <!--                                                <td></td>-->
-                                        <!--                                                <td></td>-->
-                                        <!--                                                <td align="right" >--><?php //echo (($position == 0) ? "$currency {invoice_discount}" : "{invoice_discount} $currency")
-                                                                                                                    ?>
-                                        <!--</td>-->
-                                        <!--                                            </tr>-->
-                                        <!--                                        --><?php //}
-                                                                                        ?>
-                                        <tr>
-                                            <td class="text-right" colspan="2"><b><?php echo display('grand_total') ?>:</b></td>
+                                                    <?php } ?>
 
-                                            <td></td>
-                                            <td align="center"><b>{subTotal_quantity}</b></td>
+                                                </td>
 
-                                        </tr>
+
+                                                <td align="center" class="td-style">
+                                                    <?php echo html_escape($invoice_data['unit']); ?>
+                                                </td>
+
+                                                <td align="center" class="td-style">
+                                                    <?php echo html_escape(abs($invoice_data['quantity'])); ?>
+                                                </td>
+
+
+                                            </tr>
+                                        <?php $sl++;
+                                        } ?>
+
+
+
 
                                     </tbody>
 
-                                    <!--                                    <tfoot>-->
-                                    <!--                                    <tr >-->
-                                    <!--                                        <td class="text-left" colspan="5"><b>In Word:</b></td>-->
-                                    <!--                                        <td align="right" ><b>--><?php //echo $am_inword
-                                                                                                            ?>
-                                    <!--</b></td>-->
-                                    <!--                                        <td></td>-->
-                                    <!--                                        <td></td>-->
-                                    <!---->
-                                    <!--                                    </tr>-->
-                                    <!--                                    </tfoot>-->
 
                                 </table>
-                            </div>
-                            <div class="col-xs-12 ">
-
-                                <p></p>
-                                <p></p>
-                                <p></p>
-                                <!--                                        <p><strong>{invoice_details}</strong></p>-->
-
 
                             </div>
-                        </div>
 
 
 
 
-                        <div class="cus-sign">
-                            <div class="cus">
-                                <span style="font-size:18px">
-                                    Customer
-                                </span>
+                            <div class="footer1" style="padding: 0.5in;">
+
+                                <div class="row">
+
+                                    <div class="col-sm-4">
+
+                                        <div class="inv-footer-l">
+
+                                            <span class="text-center" style="display: block; border-top: 1px solid black; margin-top:0.7in">In Good Condition<br>Received by</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+
+                                        <div class="inv-footer-r">
+
+                                            <span class="text-right" style="display: block;"><img style="width:150px; margin-right: 5px;" src="<?php echo base_url() ?>assets/dist/img/signature/proprietor_signature.png" alt="proprietor_signature"></span>
+
+                                            <span class="text-center" style="display: block; border-top: 1px solid black;">For : <span class="company_name"><?= $company_info[0]['company_name'] ?></span></span>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
                             </div>
 
-                            <div class="cus">
-                                <span style="font-size:18px">
-                                    {company_info}
-                                    For <strong>{company_name}</strong>
-                                    {/company_info}
-
-                                </span>
-                            </div>
-                        </div>
-                        <?php if ($invoice_all_data[0]['delivery_type'] == 2) { ?>
-                            <div style="max-width:60%; margin: 0 auto; margin-top:0.5in; padding:10px; border: 1px solid black; border-radius: 3px">
-                                <span>
-                                    <strong>BOOKING PARTICULAR: </strong><br>
-                                    Courier Receiver: <?= $invoice_all_data[0]['receiver_name'] ?><br>
-                                    <?= $invoice_all_data[0]['rec_num'] ?><br>
-                                    <?= $invoice_all_data[0]['courier_name'] ?>, <?= $invoice_all_data[0]['branch_name'] ?><br>
-                                </span>
-                            </div>
-                        <?php } ?>
-                        <div class="footer">
-                            <center><span style="font-size: 14px;">Powered by <strong>Webcoders</strong></span></center>
                         </div>
 
                     </div>
                 </div>
 
                 <div class="panel-footer text-left">
-                    <input type="hidden" name="" id="url" value="<?php echo base_url('Cinvoice'); ?>">
-                    <a class="btn btn-danger" href="<?php echo base_url('Cinvoice'); ?>"><?php echo display('cancel') ?></a>
+                    <input type="hidden" name="" id="url" value="<?php echo base_url('Cinvoice/manage_invoice'); ?>">
+                    <a class="btn btn-danger" href="<?php echo base_url('Cinvoice/manage_invoice'); ?>"><?php echo display('cancel') ?></a>
                     <button class="btn btn-info" onclick="printDiv('printableArea')"><span class="fa fa-print"></span></button>
 
                 </div>

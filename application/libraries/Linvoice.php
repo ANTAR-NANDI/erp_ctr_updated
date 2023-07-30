@@ -1636,6 +1636,7 @@ class Linvoice
             'company_info'     => $company_info,
             'currency'         => $currency_details[0]['currency'],
             'logo'             => $currency_details[0]['logo'],
+            'inv_logo'          => $currency_details[0]['invoice_logo'],
             'am_inword'        => $amount_inword,
             'is_discount'      => $invoice_detail[0]['total_discount'] - $invoice_detail[0]['invoice_discount'],
             'position'         => $currency_details[0]['currency_position'],
@@ -1645,6 +1646,9 @@ class Linvoice
             'is_serial'        => $isserial,
             'is_unit'          => $isunit,
         );
+        // echo "<pre>";
+        // print_r($data);
+        // exit();
 
         $chapterList = $CI->parser->parse('invoice/chalan_invoice_html', $data, true);
         return $chapterList;
