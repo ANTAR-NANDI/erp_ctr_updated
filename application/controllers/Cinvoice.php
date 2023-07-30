@@ -2643,4 +2643,13 @@ class Cinvoice extends CI_Controller
         $content = $CI->linvoice->getSettingData();
         $this->template->full_admin_html_view($content);
     }
+    //Quotation Invoice
+    public function quotation_invoice($invoice_id)
+    {
+        $CI = &get_instance();
+        $CI->auth->check_admin_auth();
+        $CI->load->library('linvoice');
+        $content = $CI->linvoice->quotation_invoice_html_data_manual($invoice_id, 1);
+        $this->template->full_admin_html_view($content);
+    }
 }

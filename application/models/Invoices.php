@@ -467,7 +467,7 @@ class Invoices extends CI_Model
             $jsaction = "return confirm('Are You Sure ?')";
 
             $button .= '  <a href="' . $base_url . 'Cinvoice/invoice_inserted_data/' . $record->invoice_id . '" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="left" title="' . display('invoice') . '"><i class="fa fa-window-restore" aria-hidden="true"></i></a>';
-
+            $button .= '  <a href="' . $base_url . 'Cinvoice/quotation_invoice/' . $record->invoice_id . '" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="left" title="Quotation"><i class="fa fa-address-card-o" aria-hidden="true"></i></a>';
             // if ($this->permission1->method('manage_invoice', 'update')->access()) {
             //     $button .= ' <a href="' . $base_url . 'Cinvoice/invoice_update_form/' . $record->invoice_id . '" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="left" title="' . display('update') . '"><i class="fa fa-pencil" aria-hidden="true"></i></a> ';
             // }
