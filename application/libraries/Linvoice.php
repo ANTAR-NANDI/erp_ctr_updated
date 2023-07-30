@@ -1151,7 +1151,8 @@ class Linvoice
         //     $chapterList = $CI->parser->parse('invoice/invoice_html_manual_new', $data, true);
         // }
         if ($invoice_setting_data[0]->status == "A4") {
-            $chapterList = $CI->parser->parse('invoice/invoice_html_manual_a5', $data, true);
+            // $chapterList = $CI->parser->parse('invoice/invoice_html_manual_a5', $data, true);
+            $chapterList = $CI->parser->parse('invoice/ctr_invoice', $data, true);
         }
         if ($invoice_setting_data[0]->status == "A5") {
             $chapterList = $CI->parser->parse('invoice/pos_dell_arte_invoice_html_manual', $data, true);
