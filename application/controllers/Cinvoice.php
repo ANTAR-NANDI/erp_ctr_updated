@@ -1397,6 +1397,14 @@ class Cinvoice extends CI_Controller
         $content = $CI->linvoice->chalan_invoice_html_data($invoice_id);
         $this->template->full_admin_html_view($content);
     }
+    public function vat_challan_html_data($invoice_id)
+    {
+        $CI = &get_instance();
+        $CI->auth->check_admin_auth();
+        $CI->load->library('linvoice');
+        $content = $CI->linvoice->vat_challan_html_data($invoice_id);
+        $this->template->full_admin_html_view($content);
+    }
     // Retrieve_product_data
     public function retrieve_product_data()
     {

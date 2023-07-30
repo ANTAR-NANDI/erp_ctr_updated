@@ -468,10 +468,11 @@ class Invoices extends CI_Model
 
             $button .= '  <a href="' . $base_url . 'Cinvoice/invoice_inserted_data/' . $record->invoice_id . '" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="left" title="' . display('invoice') . '"><i class="fa fa-window-restore" aria-hidden="true"></i></a>';
             $button .= '  <a href="' . $base_url . 'Cinvoice/quotation_invoice/' . $record->invoice_id . '" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="left" title="Quotation"><i class="fa fa-address-card-o" aria-hidden="true"></i></a>';
-            // if ($this->permission1->method('manage_invoice', 'update')->access()) {
-            //     $button .= ' <a href="' . $base_url . 'Cinvoice/invoice_update_form/' . $record->invoice_id . '" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="left" title="' . display('update') . '"><i class="fa fa-pencil" aria-hidden="true"></i></a> ';
-            // }
+            if ($this->permission1->method('manage_invoice', 'update')->access()) {
+                $button .= ' <a href="' . $base_url . 'Cinvoice/invoice_update_form/' . $record->invoice_id . '" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="left" title="' . display('update') . '"><i class="fa fa-pencil" aria-hidden="true"></i></a> ';
+            }
             $button .= '  <a href="' . $base_url . 'Cinvoice/chalan_invoice_inserted_data/' . $record->invoice_id . '" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="left" title="Delivery Challan"><i class="fa fa-file" aria-hidden="true"></i></a>';
+            $button .= '  <a href="' . $base_url . 'Cinvoice/vat_challan_html_data/' . $record->invoice_id . '" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="left" title="Vat Challan"><i class="fa fa-fax" aria-hidden="true"></i></a>';
             $button .= ' <a href="' . $base_url . 'Cretrun_m/invoice_return_form_c/' . $record->invoice_id . '" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="left" title="Return"><i class="fa fa-retweet" aria-hidden="true"></i></a> ';
             $button .= ' <a  class="btn btn-black btn-sm" data-toggle="tooltip" data-placement="left" title="Payment" onclick="payment_modal(' . $record->invoice_id . ',' . $record->net_total . ',' . $record->paid_amount . ',' . $due_amount . ')"><i class="fa fa-money" aria-hidden="true"></i></a> ';
 
