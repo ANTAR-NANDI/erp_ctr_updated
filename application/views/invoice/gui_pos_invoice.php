@@ -101,12 +101,12 @@
                             <div class="col-sm-12 fixedclasspos1">
                                 <!-- Nav tabs -->
                                 <ul class="nav nav-tabs" role="tablist">
-                                    <li class="li_p">
+                                    <li class="li_p" style="margin-bottom: 15px;">
 
                                         <div class="total_item"> মোট পণ্য: <span id="total_item_html">0</span></div>
 
                                     </li>
-                                    <li class="li_p">
+                                    <li class="li_p" style="margin-bottom: 15px;">
 
                                         <div class="total_qty">মোট পরিমাণ: <span id="total_qty_html">0</span></div>
 
@@ -118,10 +118,10 @@
 
                                     </li> -->
 
-                                    <li class="li_p bill">
+                                    <li class="li_p" style="margin-bottom: 15px;">
 
 
-                                        <div class="bill">
+                                        <div >
                                             <label for="net_total" class="col-sm-1 title-text_n1  col-form-label">মোটঃ</label>
                                             <div class="col-sm-2 bill-amount">
                                                 <input type="text" id="n_total" class="form-control box text-center bill-amount" name="n_total" value="0.00" readonly="readonly" placeholder="" />
@@ -202,7 +202,7 @@
 
                                                     <?php foreach ($categorylist as $cates) { ?>
 
-                                                        <div class="carousel-cell" onclick="get_product(<?= $cates->id ?>)"> <?= $cates->name_bn . "-". $cates->name ?></div>
+                                                        <div class="carousel-cell" onclick="get_product(<?= $cates->id ?>)"> <?= $cates->name ?></div>
 
                                                     <?php } ?>
 
